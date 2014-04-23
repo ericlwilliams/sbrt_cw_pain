@@ -41,11 +41,21 @@ xlabel('\alpha/\beta [Gy]','FontSize',20);
 
 set(gca,'FontSize',18)
 
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%
+% comparing to physical dose
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-a2b_68cl = interp1(a2b_logl,a2b,max_logl-0.5);
+a2b_68cl = interp1(a2b_logl,a2b,a2b_inf_logl+0.5);
+if isnan(a2b_68cl)
+    a2b_68cl = max(a2b)
+end
+a2b_95cl = interp1(a2b_logl,a2b,a2b_inf_logl+0.5*chi2inv(0.95,1));
 
-a2b_ul = interp1(a2b_logl,a2b,a2b_inf_logl+1.96);
-disp(['a2b <= ',num2str(a2b_ul),' significantly better V_{D} fit than no a2b']);
+disp(['!!!']);
+disp(['Values of a2b that are significantly better V_{D} than PHYSICAL fits at:']);
+disp(['68% CI ',num2str(max_logl-0.5),': a2b <= ',num2str(a2b_68cl)]);
+disp(['95% CI ',num2str(max_logl-0.5*chi2inv(0.95,1)),': a2b <= ',num2str(a2b_95cl)]);
+disp(['!!!']);
 
 %line_68cl=plot([a2b_68cl a2b_68cl],ylim,'g--','LineWidth',2);
 
@@ -156,11 +166,8 @@ set(gca,'FontSize',18)
  end
  
  
- 
- 
- 
- 
- figure(200); clf reset; hold on;
+
+figure(200); clf reset; hold on;
 set(gcf,'Position',ss_four2three);
 %plot(a2b,repmat(best_vd_phys,1,length(a2b)),'r--','LineWidth',2);
 hold on;
@@ -206,6 +213,87 @@ ylabel('Log-likelihood for best V_{NTD} CPHM','FontSize',20)
     export_fig(gcf,[fig_loc,'cwp_llhd_vs_a2b_color'],'-pdf');
    disp(['Saving ',fig_loc,'cwp_llhd_vs_a2b_color.pdf...']);
  end
+ 
+ 
+ figure(201); clf reset; hold on;
+set(gcf,'Position',ss_four2three);
+%plot(a2b,repmat(best_vd_phys,1,length(a2b)),'r--','LineWidth',2);
+hold on;
+
+for j=1:length(a2b)
+    p=plot(a2b(j),a2b_logl(j),'o');
+    set(p,'Color',colors(j,:));
+end
+[mx_logl,mx_logl_ind]=max(a2b_logl);
+
+low68 = mx_logl-0.5*chi2inv(0.68,1);
+low95 = mx_logl-0.5*chi2inv(0.95,1);
+
+h_low68=plot(a2b,repmat(low68,1,length(a2b)),'g--','LineWidth',2);
+h_low95=plot(a2b,repmat(low95,1,length(a2b)),'b--','LineWidth',2);
+h_phys=plot(a2b,repmat(a2b_inf_logl,1,length(a2b)),'k--','LineWidth',3);
+
+h_best=plot([a2b(mx_logl_ind) a2b(mx_logl_ind)],ylim,'r--','LineWidth',2);
+
+set(gca,'FontSize',18);
+set(gca,'Xtick',0:2:24)
+
+% text(5,-318.6,['Physical Dose',10,'Best fit ln(L) = ',...
+% num2str(a2b_inf_logl,5)],...
+%      'FontSize',20,...
+%      'EdgeColor','k',...
+%      'BackgroundColor','w',...
+%      'LineWidth',2);
+ 
+% text(5,-319.1,['NTD Dose',10,'Best fit ln(L) = ',...
+% num2str(max(a2b_logl),5),10,'at \alpha/\beta = ',num2str(a2b(mx_logl_ind))],...
+%      'FontSize',20,...
+%      'EdgeColor','r',...
+%      'BackgroundColor','w',...
+%      'LineWidth',2);
+set(gcf,'Units','normalized')
+lgnd=legend([h_best h_low68 h_low95 h_phys],...
+    ['Best fit ln(L): ',num2str(max(a2b_logl),5),10,...
+    ' at \alpha/\beta = 2.1 Gy'],...
+    ['Low 68% CI: ',num2str(max_logl-0.5,5)],...
+    ['Low 95% CI: ',num2str(max_logl-0.5*chi2inv(0.95,1),5)],...
+    ['Physical dose ln(L): ',num2str(a2b_inf_logl,5)],...
+    'Location',[0.3 0.4 0.25 0.25]);
+
+set(lgnd,'FontSize',20);
+%ylim([min(vx_logls{2})-2 max(vx_logls{2})+1]);
+%grid on;
+xlabel('\alpha/\beta [Gy]','FontSize',20)
+ylabel('Log-likelihood for best V_{NTD} CPHM','FontSize',20)
+%phys_xlim =[xlim];
+%phys_xlim=phys_xlim(2);
+%phys_xlim = xlim(2);
+ if do_print,
+    set(gcf,'Color','w');
+    export_fig(gcf,[fig_loc,'cwp_llhd_vs_a2b_color_wphys'],'-pdf');
+   disp(['Saving ',fig_loc,'cwp_llhd_vs_a2b_color_wphys.pdf...']);
+ end
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
 %% plot KM curve for best a2b (= 2.1)
 
