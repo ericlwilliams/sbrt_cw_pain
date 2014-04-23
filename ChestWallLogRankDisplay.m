@@ -362,7 +362,9 @@ for m = 1:length(fn)
     
     % V30
     %median split
-    dose=30;
+%     dose=30;
+dose=30;
+    
     [~,fdose] = min(abs(CGobj{m}.mBinsDose - dose));
     f = cellfun(@(x) strcmpi('VDx',x),CGobj{m}.mLogRank(:,1));
     cur_pvx = CGobj{m}.mLogRank{f,2};

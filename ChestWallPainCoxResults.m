@@ -11,8 +11,8 @@ end
 %cwp_def = 'RIMNER';
 cwp_def = 'MUTTER';
 
-fn = {strcat(cwp_def,'_MASTER_ChestWall_Cox_DiVj_DVHs_fx-1_a2bInf.mat')};
-%fn = {strcat(cwp_def,'_MASTER_ChestWall_Cox_DiVj_DVHs_fx-1_a2b2.1.mat')};
+%fn = {strcat(cwp_def,'_MASTER_ChestWall_Cox_DiVj_DVHs_fx-1_a2bInf.mat')};
+fn = {strcat(cwp_def,'_MASTER_ChestWall_Cox_DiVj_DVHs_fx-1_a2b2.1.mat')};
 
 vxdx_cphm_mat_str=strcat(fp,strcat(cwp_def,'_CW_VxDx_CoxPHM.mat'));
 %vxdx_cphm_mat_str='C:\Documents and Settings\williae1\cw_meta_data\MUTTER_CW_VxDx_CoxPHM.mat';

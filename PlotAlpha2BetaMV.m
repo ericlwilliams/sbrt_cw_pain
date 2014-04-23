@@ -6,9 +6,15 @@ ss_four2three = [0 0 screen_size(3)/2 (screen_size(4)/2)*(4/3)];
 fig_loc = 'Z:/elw/MATLAB/cw_analy/slides/figures/latest/';
 
 fp = 'C:\Documents and Settings\williae1\cw_meta_data\';
+%fp = 'Z:\elw\MATLAB\cw_analy\meta_data\';
 
-%numfx = 'all';
-numfx = '5';
+
+do_print = true;
+if ~do_print
+    disp(['NOT SAVING PLOTS'])
+end
+numfx = 'all';
+%numfx = '5';
 if isequal(numfx,'all')
     fn2 = ['MUTTER_MASTER_ChestWall_Cox_DiVj_DVHs_fx-1_a2b2.1.mat'];
 else
@@ -143,31 +149,35 @@ for j=1:length(to_print)
     h_km(2)=stairs(cur_sa{j}.mSurvivalTimeSorted{2}./12,1-cur_sa{j}.mSurvivalCurve{2},'r','LineWidth',2);
     plot(cur_sa{j}.mSurvivalTimeSorted{2}(cur_sa{j}.mCensorStatistics{2}(:,1))./12,...
         1-cur_sa{j}.mSurvivalCurve{2}(cur_sa{j}.mCensorStatistics{2}(:,1)),'r+','MarkerSize',12);
-    ylim([0 0.8]);
-%ylim([0 0.4]);
-    str_pval = ['$p = ',num2str(cur_pvals(j),'%10.1e\n'),'$',10,...
-            'HR = ',num2str(cur_sa{j}.mHR,3)];
-    %text(38,0.25,str_pval,'FontSize',16);
-    text(0.25,0.75,str_pval,'FontSize',20,'interpreter','latex');
+    ylim([0 0.6]);
+
+%     str_pval = ['$p = ',num2str(cur_pvals(j),'%10.1e\n'),'$',10,...
+    str_pval = ['$p \leq 0.001$',10,...
+            'HR~$= ',num2str(cur_sa{j}.mHR,2),'$'];
+
+    text(0.25,0.55,str_pval,'FontSize',20,'interpreter','latex');
+
     lgnd=legend(h_km,...
-        strcat('$V_{99} <',num2str(cur_splits(j),3),'$cc'),...
-        strcat('$V_{99}\geq',num2str(cur_splits(j),3),'$cc'));
+        strcat('$V_{99\rm{Gy}_{2.1}} <',num2str(vds_median,3),'$cc'),...
+        strcat('$V_{99\rm{Gy}_{2.1}}\geq',num2str(vds_median,3),'$cc'));
     
     set(lgnd,'FontSize',18);
     h=legend;
     set(h,'interpreter','latex');
     set(h,'Location','NorthEast');
     set(gca,'xminortick','on','yminortick','on');
-    xlabel(['Years'],'fontsize',18);
-    ylabel(['Probability of CW Pain'],'fontsize',18);
+    xlabel(['Years'],'fontsize',20);
+    ylabel(['Probability of CW Pain'],'fontsize',20);
     set(gca,'FontSize',18);
     
+    if do_print
     set(fg,'Color','w');
     export_fig(fg,...
         [fig_loc,'km_v99_fx',numfx],'-pdf');
-    
+    end
     %title(['V_{99,a2b=2.1 GY}, Threshold: ',num2str(cur_splits(j),3), ' (',printing{j},')'],'fontsize',14);
-    
+    disp(['= V_{99, a2b=2.1}=']);
+    disp(['P: ',num2str(cur_pvals(j))]);
 end
 
 
@@ -187,6 +197,9 @@ bmi_idx = bmi_data>0;
 disp(['= V_{99, a2b=2.1} + BMI CoxPH =']);
 disp(['LogL : ',num2str(cur_logl)]);
 disp(['p-vals:',10,'v_{d}: ',num2str(cur_stats.p(1)),10,'BMI: ',num2str(cur_stats.p(2))]);
+disp(['Beta (V99, BMI): (',...
+        num2str(cur_stats.beta(1)),',',...
+        num2str(cur_stats.beta(2)),')']);
 %disp(['p-val : ',num2str(cur_stats.p)]);
 
 %KM split
@@ -197,7 +210,7 @@ g=find(bmi_idx);
 vd_bmi = cur_betas(1).*vd(g) + cur_betas(2).*bmi_data(g);
 
 vd_bmi_median = median(vd_bmi);
-disp(['Median: ',num2str(vd_bmi_median,3)]);
+disp(['Median: ',num2str(vd_bmi_median)]);
 sa = repmat({classKaplanMeierCurve()},length(vd_bmi),1);
 
 % try split at each value of vd_bmi
@@ -278,14 +291,15 @@ for j=1:length(to_print)
     h_km(2)=stairs(cur_sa{j}.mSurvivalTimeSorted{2}./12,1-cur_sa{j}.mSurvivalCurve{2},'r','LineWidth',2);
     plot(cur_sa{j}.mSurvivalTimeSorted{2}(cur_sa{j}.mCensorStatistics{2}(:,1))./12,...
         1-cur_sa{j}.mSurvivalCurve{2}(cur_sa{j}.mCensorStatistics{2}(:,1)),'r+','MarkerSize',12);
-    ylim([0 0.8]);
-    str_pval = ['$p = ',num2str(cur_pvals(j),'%10.1e\n'),'$',10,...
-            'HR = ',num2str(cur_sa{j}.mHR,3)];
+    ylim([0 0.6]);
+%     str_pval = ['$p = ',num2str(cur_pvals(j),'%10.1e\n'),'$',10,...
+    str_pval = ['$p \leq 0.001$',10,...
+            'HR~$= ',num2str(cur_sa{j}.mHR,2),'$'];
     %text(38,0.25,str_pval,'FontSize',16);
-    text(0.25,0.75,str_pval,'FontSize',20,'interpreter','latex');
+    text(0.25,0.55,str_pval,'FontSize',20,'interpreter','latex');
     lgnd=legend(h_km,...
-        strcat('$\beta_{V_{99Gy_{2.1}}}\times V_{99Gy_{2.1}}+\beta_{BMI}\times BMI <',num2str(cur_splits(j),3),'$'),...
-        strcat('$\beta_{V_{99Gy_{2.1}}}\times V_{99Gy_{2.1}}+\beta_{BMI}\times BMI \geq',num2str(cur_splits(j),3),'$'));
+        strcat('$\beta_{V_{99\rm{Gy}_{2.1}}}\times V_{99\rm{Gy}_{2.1}}+\beta_{BMI}\times BMI <',num2str(cur_splits(j),3),'$'),...
+        strcat('$\beta_{V_{99\rm{Gy}_{2.1}}}\times V_{99\rm{Gy}_{2.1}}+\beta_{BMI}\times BMI \geq',num2str(cur_splits(j),3),'$'));
     set(lgnd,'FontSize',18);
     h=legend;
     set(h,'interpreter','latex');
@@ -295,13 +309,16 @@ for j=1:length(to_print)
     ylabel(['Probability of CW Pain'],'fontsize',20);
     set(gca,'FontSize',18);
     %title(['V_{99Gy,a2b=2.1 GY} + BMI, Threshold: ',num2str(cur_splits(j),3), ' (',printing{j},')'],'fontsize',14);
-     set(fg,'Color','w');
+    if do_print
+    set(fg,'Color','w');
     export_fig(fg,...
         [fig_loc,'km_v99_bmi_fx',numfx],'-pdf');
+    end
 end
 
-
-
+if ~do_print
+    disp(['PLOTS NOT SAVED'])
+end
 
 toc;
 end
