@@ -1,4 +1,4 @@
-function ChestWallPainAlpha2Beta
+function CWP_a2b
 tic;
 
 fig_loc = 'Z:/elw/MATLAB/cw_analy/figures/latest/';

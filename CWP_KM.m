@@ -1,4 +1,4 @@
-function ChestWallKMCurves
+function CWP_KM
 tic;
 % prepare
 %fp = 'Z:\elw\MATLAB\cw_analy\meta_data\';

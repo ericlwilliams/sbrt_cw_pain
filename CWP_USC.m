@@ -1,4 +1,4 @@
-function ChestWallUniversalSurvivalCurve
+function CWP_USC
 tic;
 % prepare
 fp = 'Z:\elw\MATLAB\cw_analy\meta_data\';

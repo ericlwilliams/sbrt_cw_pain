@@ -1,4 +1,4 @@
-function PlotAlpha2Beta
+function CWP_Plot_a2b
 
 fp = 'C:\Documents and Settings\williae1\cw_meta_data\';
 do_print =true;
@@ -220,11 +220,16 @@ set(gcf,'Position',ss_four2three);
 %plot(a2b,repmat(best_vd_phys,1,length(a2b)),'r--','LineWidth',2);
 hold on;
 
+[mx_logl,mx_logl_ind]=max(a2b_logl);
+best_line_color = [1 0 0];
 for j=1:length(a2b)
     p=plot(a2b(j),a2b_logl(j),'o');
     set(p,'Color',colors(j,:));
+    if mx_logl_ind==j
+        best_line_color = colors(j,:);
+    end
 end
-[mx_logl,mx_logl_ind]=max(a2b_logl);
+
 
 low68 = mx_logl-0.5*chi2inv(0.68,1);
 low95 = mx_logl-0.5*chi2inv(0.95,1);
@@ -233,7 +238,10 @@ h_low68=plot(a2b,repmat(low68,1,length(a2b)),'g--','LineWidth',2);
 h_low95=plot(a2b,repmat(low95,1,length(a2b)),'b--','LineWidth',2);
 h_phys=plot(a2b,repmat(a2b_inf_logl,1,length(a2b)),'k--','LineWidth',3);
 
-h_best=plot([a2b(mx_logl_ind) a2b(mx_logl_ind)],ylim,'r--','LineWidth',2);
+% h_best=plot([a2b(mx_logl_ind) a2b(mx_logl_ind)],ylim,'r--','LineWidth',2);
+h_best=plot([a2b(mx_logl_ind) a2b(mx_logl_ind)],ylim,'--',...
+    'LineWidth',2);
+set(h_best,'Color',best_line_color);
 
 set(gca,'FontSize',18);
 set(gca,'Xtick',0:2:24)

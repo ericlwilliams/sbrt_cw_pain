@@ -1,8 +1,8 @@
-function ChestWallLogRankDisplay
+function CWP_LogRank
 tic;
 % prepare
-%fp = 'Z:\elw\MATLAB\cw_analy\meta_data\';
-fp = 'C:\Documents and Settings\williae1\cw_meta_data\';
+fp = 'Z:\elw\MATLAB\cw_analy\meta_data\';
+%fp = 'C:\Documents and Settings\williae1\cw_meta_data\';
 
 fig_loc = 'Z:\elw\MATLAB\cw_analy\figures\latest\';
 fn = {'MUTTER_MASTER_ChestWall_Cox_DiVj_DVHs_fx-1_a2bInf.mat'};

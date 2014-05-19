@@ -1,4 +1,4 @@
-function ChestWallPainAnalysis
+function CWP_Analysis
 tic;
 
 save_result = true;
@@ -351,7 +351,7 @@ for m=1:length(dvhdef) % iterate with each definition
             %fn=['Z:\elw\MATLAB\cw_analy\meta_data\RIMNER_EARLY_ChestWall_Cox_DiVj_',dvhdef{m},'_fx',num2str(fxnum{n}(1)),'_ratio',num2str(beta2alpha(u)),'.mat'];
             %fn=['Z:\elw\MATLAB\cw_analy\meta_data\RIMNER_LATE_ChestWall_Cox_DiVj_',dvhdef{m},'_fx',num2str(fxnum{n}(1)),'_ratio',num2str(beta2alpha(u)),'.mat'];
             
-            fn=['C:\Documents and Settings\williae1\cw_meta_data\MUTTER_MASTER_ChestWall_Cox_DiVj_',dvhdef{m},'_fx',num2str(fxnum{n}(1)),'_a2b',num2str(1/beta2alpha(u)),'.mat'];
+            fn=['Z:\elw\MATLAB\cw_analy\meta_data\MUTTER_MASTER_ChestWall_Cox_DiVj_',dvhdef{m},'_fx',num2str(fxnum{n}(1)),'_a2b',num2str(1/beta2alpha(u)),'.mat'];
            
             if isunix
                 fn=strrep(fn,'G:','/media/SKI_G');

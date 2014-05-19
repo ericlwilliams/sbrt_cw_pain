@@ -1,5 +1,5 @@
-function ChestWallDistanceToChestWallDisplay
-tic;
+function CWP_cm2cw
+tic
 % prepare
 fp = 'C:\Documents and Settings\williae1\cw_meta_data\';
 

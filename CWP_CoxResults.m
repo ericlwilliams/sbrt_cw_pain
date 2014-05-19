@@ -1,4 +1,4 @@
-function ChestWallPainCoxResults
+function CWP_CoxResults
 tic;
 fig_loc = 'Z:/elw/MATLAB/cw_analy/slides/figures/latest/';
 do_print=true;

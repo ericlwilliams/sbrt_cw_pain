@@ -1,4 +1,4 @@
-function ChestWallUscDtProfile
+function CWP_USC_Profiles
 tic;
 % prepare
 %fp = 'Z:\elw\MATLAB\cw_analy\meta_data\';

@@ -1,4 +1,4 @@
-function ChestWallROCCurves
+function CWP_ROC
 tic;
 % prepare
 %fp = 'Z:\elw\MATLAB\cw_analy\meta_data\';
