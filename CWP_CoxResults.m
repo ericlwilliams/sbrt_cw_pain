@@ -11,8 +11,8 @@ end
 %cwp_def = 'RIMNER';
 cwp_def = 'MUTTER';
 
-%fn = {strcat(cwp_def,'_MASTER_ChestWall_Cox_DiVj_DVHs_fx-1_a2bInf.mat')};
-fn = {strcat(cwp_def,'_MASTER_ChestWall_Cox_DiVj_DVHs_fx-1_a2b2.1.mat')};
+fn = {strcat(cwp_def,'_MASTER_ChestWall_Cox_DiVj_DVHs_fx-1_a2bInf.mat')};
+%fn = {strcat(cwp_def,'_MASTER_ChestWall_Cox_DiVj_DVHs_fx-1_a2b2.1.mat')};
 
 vxdx_cphm_mat_str=strcat(fp,strcat(cwp_def,'_CW_VxDx_CoxPHM.mat'));
 %vxdx_cphm_mat_str='C:\Documents and Settings\williae1\cw_meta_data\MUTTER_CW_VxDx_CoxPHM.mat';
@@ -384,18 +384,20 @@ for m = 1:length(fn)
     %set(gcf,'Position',ss_four2three);
     semilogy(x_dvx,[VDxCox.p],'x-','LineWidth',2,'MarkerSize',10); 
     hold on; 
-    semilogy(x_dvx,repmat(0.05,size(x_dvx)),'r--'); 
-    h_min_pval = semilogy([x_dvx(ploc) x_dvx(ploc)],ylim,'g--','LineWidth',2);
+    h_psig=semilogy(x_dvx,repmat(0.05,size(x_dvx)),'r--'); 
+%     h_min_pval = semilogy([x_dvx(ploc) x_dvx(ploc)],ylim,'g--','LineWidth',2);
     hold off;
     xlim([0 max(x_dvx)]);
     set(gca,'fontsize',18);
     set(gca,'xminortick','on','yminortick','on');
     set(gca,'box','on');
-    pval_str = {['Min p-val = ', num2str(min_p,2),' at V_{',num2str(x_dvx(ploc),4),' Gy}']};
-    lgnd=legend(h_min_pval,pval_str,'Location','Best');
-    set(lgnd,'FontSize',20);
-    xlabel('(V_{D}) Dose [Gy]','fontsize',24);
-    ylabel('CPH p-value','fontsize',24);
+    pval_str = {['Min $p$-value~$= ', num2str(min_p,2),'$',10,'at~$V_{',num2str(x_dvx(ploc),4),'~\text{Gy}}$']};
+ %lgnd=legend(h_min_pval,pval_str,'Location','SouthWest');
+    lgnd=legend(h_psig,'$p = 0.05$','Location','NorthWest');
+     set(lgnd,'interpreter','latex');
+     set(lgnd,'FontSize',20);
+    xlabel('($V_{D}$) Dose [Gy]','fontsize',24,'interpreter','latex');
+    ylabel('Cox Model $p$-value','fontsize',24,'interpreter','latex');
     
     if do_print
     set(cur_fig,'Color','w');
@@ -1691,11 +1693,11 @@ for m = 1:length(fn)
     second_pvals_strs = num2str(second_pvals(:),'%2.2g');
     diag_pvals_strs = num2str(diag_pvals(:),'%2.2g');
     
-    first_pvals_strs = strtrim(cellstr(first_pvals_strs));%# Remove any space padding
-    second_pvals_strs = strtrim(cellstr(second_pvals_strs));%# Remove any space padding
-    diag_pvals_strs = strtrim(cellstr(diag_pvals_strs));%# Remove any space padding
+    first_pvals_strs = strtrim(cellstr(first_pvals_strs));
+    second_pvals_strs = strtrim(cellstr(second_pvals_strs));
+    diag_pvals_strs = strtrim(cellstr(diag_pvals_strs));
     
-    [x_pvals,y_pvals] = meshgrid(1:8); %# x/y coordiantes for strings
+    [x_pvals,y_pvals] = meshgrid(1:8);
     x_diag_pvals = [1:8];
     y_diag_pvals = [1:8];
     
@@ -1817,8 +1819,8 @@ for m = 1:length(fn)
     
     is_nan = isnan(mv_logl(:));
     logl_values = num2str(mv_logl(:),'%6.4g');
-    logl_values = strtrim(cellstr(logl_values));%# Remove any space padding
-    [x_logl,y_logl] = meshgrid(1:8); %# x/y coordiantes for strings
+    logl_values = strtrim(cellstr(logl_values));% Remove any space padding
+    [x_logl,y_logl] = meshgrid(1:8); % x/y coordiantes for strings
     h_logl_strings = text(x_logl(~is_nan),y_logl(~is_nan),logl_values(~is_nan),...
             'HorizontalAlignment','center','FontSize',18);
     title('Cox PH Model Log-likelihood','FontSize',18);
@@ -1840,8 +1842,8 @@ for m = 1:length(fn)
 %     
 %     is_nan = isnan(mv_aic(:));
 %     aic_values = num2str(mv_aic(:),'%6.3g');
-%     aic_values = strtrim(cellstr(aic_values));%# Remove any space padding
-%     [x_aic,y_aic] = meshgrid(1:8); %# x/y coordiantes for strings
+%     aic_values = strtrim(cellstr(aic_values));% Remove any space padding
+%     [x_aic,y_aic] = meshgrid(1:8); % x/y coordiantes for strings
 %     h_aic_strings = text(x_aic(~is_nan),y_aic(~is_nan),aic_values(~is_nan),...
 %             'HorizontalAlignment','center','FontSize',18);
 %     title('Cox PH Model AIC','FontSize',18);
@@ -1875,8 +1877,8 @@ for m = 1:length(fn)
 %     
 %     is_nan = isnan(prob_min_info_loss(:));
 %     il_values = num2str(prob_min_info_loss(:),'%6.2g');
-%     il_values = strtrim(cellstr(il_values));%# Remove any space padding
-%     [x_il,y_il] = meshgrid(1:8); %# x/y coordiantes for strings
+%     il_values = strtrim(cellstr(il_values));% Remove any space padding
+%     [x_il,y_il] = meshgrid(1:8); % x/y coordiantes for strings
 %     h_il_strings = text(x_il(~is_nan),y_il(~is_nan),il_values(~is_nan),...
 %             'HorizontalAlignment','center','FontSize',18);
 %     title('Relative Prob of Info Loss (compared to univar)','FontSize',18);
@@ -1917,8 +1919,8 @@ for m = 1:length(fn)
     is_nan = isnan(llr_pvals(:));
     llr_pvals(llr_pvals<0.001) = 0.001;
     llr_values = num2str(llr_pvals(:),'%2.2g');
-    llr_values = strtrim(cellstr(llr_values));%# Remove any space padding
-    [x_il,y_il] = meshgrid(1:8); %# x/y coordiantes for strings
+    llr_values = strtrim(cellstr(llr_values));% Remove any space padding
+    [x_il,y_il] = meshgrid(1:8); % x/y coordiantes for strings
     h_llr_pval_strings = text(x_il(~is_nan),y_il(~is_nan),llr_values(~is_nan),...
             'HorizontalAlignment','center','FontSize',18);
     title('Maximum Log-Likelihood Ratio Statistic p-values','FontSize',18);
